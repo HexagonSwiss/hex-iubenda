@@ -1,21 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Button } from 'react-native';
-import { askConsent as askC, openPreferences as openP, initialize, getConsentStatus as getCStatus, type hexIubendaOptions  } from 'hex-iubenda';
+import { 
+  askConsent as askC, 
+  openPreferences as openP, 
+  initialize, 
+  getConsentStatus as getCStatus, 
+  type hexIubendaOptions  
+} from 'hex-iubenda';
 
 const App = () => {
   const [initialized, setInitialized] = useState(false);
   const [consentStatus, setConsentStatus] = useState('');
 
   const config = JSON.stringify({
-    "banner": {
-        "acceptButtonDisplay": "true",
-        "customizeButtonDisplay": "true",
-        "backgroundColor": "#000000",
-        "textColor": "#FFFFFF",
-        "acceptButtonColor": "#FD1D1D",
-        "acceptButtonCaptionColor": "white",
-        "customizeButtonColor": "transparent",
-        "customizeButtonCaptionColor": "#FFF"
+    banner: {
+        acceptButtonDisplay:'true',
+        customizeButtonDisplay: 'true',
+        backgroundColor: '#000000',
+        textColor: '#FFFFFF',
+        acceptButtonColor: '#FD1D1D',
+        acceptButtonCaptionColor: 'white',
+        customizeButtonColor: 'transparent',
+        customizeButtonCaptionColor: '#FFF'
     }
 });
 
