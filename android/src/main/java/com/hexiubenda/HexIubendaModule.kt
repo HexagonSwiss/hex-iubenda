@@ -18,7 +18,8 @@ class HexIubendaModule(reactContext: ReactApplicationContext) :
 
 
     @ReactMethod
-    fun initialize(configMap: ReadableMap) {
+    fun initialize(configMap: ReadableMap, promise: Promise) {
+        try{
         val context = reactApplicationContext
         val builder = IubendaCMPConfig.builder()
         if (hasValidKey("gdprEnabled", configMap))
@@ -55,6 +56,11 @@ class HexIubendaModule(reactContext: ReactApplicationContext) :
                 builder.landscapeHeight(configMap.getInt("landscapeHeight"))
         val config = builder.build()
         IubendaCMP.initialize(context, config)
+
+        promise.resolve(true)
+        } catch (e: Exception) {
+            promise.reject("Error", e)
+        }
     }
 
     fun hasValidKey(key: String, options: ReadableMap?): Boolean {

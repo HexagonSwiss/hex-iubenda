@@ -88,7 +88,7 @@ RCT_EXPORT_METHOD(initialize:(NSDictionary *)config
       [IubendaCMP initializeWith:configuration];
       
       // Se l'inizializzazione ha successo, risolvi la promessa
-      resolve(@{ @"status": @"initialized successfully" });
+      resolve(@YES);
     } @catch (NSException *exception) {
       // Se si verifica un'eccezione, rifiuta la promessa
       reject(@"initialize_error", @"Failed to initialize Iubenda CMP", nil);

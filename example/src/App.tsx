@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Button } from 'react-native';
 import { askConsent as askC, openPreferences as openP, initialize, getConsentStatus as getCStatus, type hexIubendaOptions  } from 'hex-iubenda';
 
 const App = () => {
-  const [initialized, setInitialized] = useState('');
+  const [initialized, setInitialized] = useState(false);
   const [consentStatus, setConsentStatus] = useState('');
 
   const config = JSON.stringify({
@@ -29,7 +29,13 @@ const App = () => {
   // Inizializzazione
   useEffect(() => {
     initialize(options).then(result => {
-      setInitialized(result);
+      if (result) {
+        setInitialized(true); // Imposta a true se l'inizializzazione ha successo
+      }
+    })
+    .catch(error => {
+      console.error("Initialization failed:", error);
+      setInitialized(false); // Assicurati che rimanga false in caso di errore
     });
   }, []); // L'array vuoto assicura che l'inizializzazione avvenga solo una volta, simile a componentDidMount
 
