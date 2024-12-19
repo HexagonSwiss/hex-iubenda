@@ -4,17 +4,6 @@
 @implementation HexIubenda
 RCT_EXPORT_MODULE()
 
-// Example method
-// See // https://reactnative.dev/docs/native-modules-ios
-// RCT_EXPORT_METHOD(multiply:(double)a
-//                   b:(double)b
-//                   resolve:(RCTPromiseResolveBlock)resolve
-//                   reject:(RCTPromiseRejectBlock)reject)
-// {
-//     NSNumber *result = @(a * b);
-
-//     resolve(result);
-// }
 
 RCT_EXPORT_METHOD(initialize:(NSDictionary *)config
                   resolve:(RCTPromiseResolveBlock)resolve
@@ -140,16 +129,19 @@ RCT_EXPORT_METHOD(getConsentStatus: (RCTPromiseResolveBlock)resolve rejecter:(RC
     NSMutableDictionary *consentStatus = [NSMutableDictionary new];
     
     // Esempio di utilizzo delle impostazioni disponibili
-    consentStatus[@"consentString"] = [IubendaCMP.storage consentString];
-    consentStatus[@"googlePersonalized"] = @([IubendaCMP.storage googlePersonalized]);
+    consentStatus[@"consentString"] = [IubendaCMP.storage consentString];//Return the consent string
+    consentStatus[@"googlePersonalized"] = @([IubendaCMP.storage googlePersonalized]);//True if user have accepted the Google Personalized ADs option
     
-    //consentStatus[@"subjectToGDPR"] = @([IubendaCMP subjectToGDPR]);
-    // consentStatus[@"cmpPresent"] = @([IubendaCMP.storage cmpPresent]);
-    consentStatus[@"vendorConsents"] = [IubendaCMP.storage vendorConsents];
-    consentStatus[@"purposeConsents"] = [IubendaCMP.storage purposeConsents];
-    // consentStatus[@"consentTimestamp"] = @([IubendaCMP.storage consentTimestamp]);
-    // consentStatus[@"preferenceExpressed"] = @([IubendaCMP.storage isPreferenceExpressed]);
-    //consentStatus[@"isPurposeConsentGivenFor"] = @([IubendaCMP.storage isPurposeConsentGivenForPurposeId(1)]);
+    consentStatus[@"vendorConsents"] = [IubendaCMP.storage vendorConsents];//Returns the vendors binary String
+    consentStatus[@"purposeConsents"] = [IubendaCMP.storage purposeConsents];//Returns the purposes binary String
+    NSDate *consentTimestamp = [IubendaCMP.storage consentTimestamp];//Returns the timestamp of the consent
+    if (consentTimestamp) {
+        consentStatus[@"consentTimestamp"] = @([consentTimestamp timeIntervalSince1970]);
+    } else {
+        consentStatus[@"consentTimestamp"] = @(0); // or handle nil case appropriately
+    }
+
+
     // Risolve il risultato con lo stato del consenso
     NSData *data = [NSJSONSerialization dataWithJSONObject:consentStatus options:NSJSONWritingPrettyPrinted error:nil];
 

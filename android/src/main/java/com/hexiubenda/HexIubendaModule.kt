@@ -16,12 +16,6 @@ class HexIubendaModule(reactContext: ReactApplicationContext) :
         return NAME
     }
 
-    // Example method
-    // See https://reactnative.dev/docs/native-modules-android
-//     @ReactMethod
-//     fun multiply(a: Double, b: Double, promise: Promise) {
-//         promise.resolve(a * b)
-//     }
 
     @ReactMethod
     fun initialize(configMap: ReadableMap) {
@@ -83,16 +77,12 @@ class HexIubendaModule(reactContext: ReactApplicationContext) :
     fun getConsentStatus(): String {
         val consentStatus = mutableMapOf<String, Any?>()
         // Recupera lo stato del consenso dai metodi disponibili
-        // Esempio di utilizzo delle impostazioni disponibili
         val storage = IubendaCMP.getStorage()
-        consentStatus["consentString"] = storage.getConsentString()
-
-        //consentStatus["subjectToGDPR"] = storage.getSubjectToGdpr()
-        // consentStatus["cmpPresent"] = storage.getCmpPresentValue()
-        consentStatus["vendorConsents"] = storage.getVendorsString()
-        consentStatus["purposeConsents"] = storage.getPurposesString()
-        consentStatus["consentTimestamp"] = storage.getConsentTimestamp()
-        // consentStatus["preferenceExpressed"] = storage.isPreferenceExpressed()
+        consentStatus["consentString"] = storage.getConsentString()//Return the consent string
+        consentStatus["googlePersonalized"] = storage.isGooglePersonalized();//True if user have accepted the Google Personalized ADs option
+        consentStatus["vendorConsents"] = storage.getVendorsString()//Returns the vendors binary String
+        consentStatus["purposeConsents"] = storage.getPurposesString()//Returns the purposes binary String
+        consentStatus["consentTimestamp"] = storage.getConsentTimestamp()//Returns the timestamp of the consent
 
         // Risolve il risultato con lo stato del consenso
         val gson = Gson()

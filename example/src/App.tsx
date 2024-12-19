@@ -1,15 +1,36 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Button } from 'react-native';
-import { askConsent as askC, openPreferences as openP, initialize, getConsentStatus as getCStatus } from 'hex-iubenda';
+import { askConsent as askC, openPreferences as openP, initialize, getConsentStatus as getCStatus, type hexIubendaOptions  } from 'hex-iubenda';
 
 const App = () => {
-  const [initialized, setInitialized] = useState(false);
+  const [initialized, setInitialized] = useState('');
   const [consentStatus, setConsentStatus] = useState('');
+
+  const config = JSON.stringify({
+    "banner": {
+        "acceptButtonDisplay": "true",
+        "customizeButtonDisplay": "true",
+        "backgroundColor": "#000000",
+        "textColor": "#FFFFFF",
+        "acceptButtonColor": "#FD1D1D",
+        "acceptButtonCaptionColor": "white",
+        "customizeButtonColor": "transparent",
+        "customizeButtonCaptionColor": "#FFF"
+    }
+});
+
+  const options: hexIubendaOptions = {
+    siteId: '3782169',
+    cookiePolicyId: '66406702',
+    forceConsent: false,
+    jsonContent:config
+  };
 
   // Inizializzazione
   useEffect(() => {
-    const result = initialize('3782169', '66406702');
-    setInitialized(result);
+    initialize(options).then(result => {
+      setInitialized(result);
+    });
   }, []); // L'array vuoto assicura che l'inizializzazione avvenga solo una volta, simile a componentDidMount
 
   // Funzioni per interagire con l'SDK
