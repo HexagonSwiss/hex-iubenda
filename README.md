@@ -31,15 +31,32 @@ dependencies {
 
 
 ```js
-import {askConsent, openPreferences, initialize, getConsentStatus } from 'hex-iubenda'; 
+import {askConsent, openPreferences, initialize, getConsentStatus, type hexIubendaOptions  } from 'hex-iubenda'; 
 
-const result = initialize(siteId, cookiePolicyId);
+const options: hexIubendaOptions = {
+    siteId: siteId,
+    cookiePolicyId: cookiePolicyId,
+    ,
+    ,
+  };
+
+ useEffect(() => {
+    initialize(options).then(result => {
+      if (result) {
+        setInitialized(true); // Set to true if initialization is successful
+      }
+    })
+    .catch(error => {
+      console.error("Initialization failed:", error);
+      setInitialized(false); // Make sure it stays false in case of an error
+    });
+  }, []);
 
 askConsent();
 
 openPreferences();
 
-const status = await getCStatus();
+getCStatus();
 ```
 
 ##Settings
